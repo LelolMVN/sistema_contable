@@ -1,0 +1,6 @@
+env/
+users/__pycache__/
+sistema_contable/__pycache__/
+main/__pycache__/
+notas/
+db.sqlite3

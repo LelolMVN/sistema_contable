@@ -1,0 +1,44 @@
+{% extends 'main/base.html' %}
+
+{% block nav %}
+    <li><a>Cerrar sesión</a></li>
+{% endblock %}
+
+{% load crispy_forms_tags %}
+
+{% block main %}
+    <div style="max-width: 500px; margin: auto;">
+        <h1>Crear boleta</h1>
+
+        <form method="post">
+            {% csrf_token %}
+            {{ form|crispy }} <!-- .as_p es que lo transforma a párrafo-->
+            <button type="submit" class="btn btn-success">Nueva boleta</button>
+        </form><br>
+    </div>
+
+    <div style="max-width: 1000px; margin: auto;"> <!--style temporal-->
+        <table class="table table-bordered">
+            <tr>
+                <th>Número</th>
+                <th>Fecha emisión</th>
+                <th>Hora emisión</th> <!--Opcional, sirve para probar el Time Zone-->
+                <th>Cliente</th>
+                <th>Total</th>
+                <th>Detalle</th>
+            </tr>
+            
+            {% for boleta in user.boletas_set.all %}
+                <tr>
+                    <td>{{ boleta.numero }}</td>
+                    <td>{{ boleta.fecha_emision|date:"d/m/Y" }}</td>
+                    <td>{{ boleta.fecha_emision|date:"H:i:s" }}</td>
+                    <td>{{boleta.cliente}}</td>
+                    <td class="td text-end">${{ boleta.total|floatformat:"-0" }}</td>
+                    <td>{{ boleta.detalle }}</td>
+                </tr>
+            {% endfor %}
+
+        </table>
+    </div>
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends 'main/base.html' %}
+
+{% block title %}Registro {% endblock %}
+
+{% load crispy_forms_tags %}
+
+{% block main %}
+    <form method="POST"
+    style="max-width: 400px; margin: auto;">
+        <h1>Crear cuenta</h1><br>
+        {% csrf_token %}
+        {{ form|crispy }}
+        <button type="submit" class="btn btn-primary">Registrarme</button>
+    </form>
+
+        <!--Aviso temporal-->
+        <br><p style="color: red; text-align: center; margin: auto; font-family: Arial, Helvetica, sans-serif;">Esta es una app de prueba, recomendamos no usar datos personales.</p>
+{% endblock %}

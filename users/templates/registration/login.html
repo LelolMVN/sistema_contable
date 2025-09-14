@@ -1,0 +1,16 @@
+{% extends 'main/base.html' %}
+
+{% block title %}Iniciar sesión{% endblock %}
+
+{% load crispy_forms_tags %}
+
+{% block main %}
+    <form method="POST"
+    style="max-width: 400px; margin: auto;">
+        <h1>Iniciar sesión</h1><br>
+        {% csrf_token %}
+        {{ form|crispy }}
+        <p>¿No tienes una cuenta? <a href="{% url 'registro' %}">Registrate aquí</a></p>
+        <button type="submit" class="btn btn-primary">Iniciar sesión</button>
+    </form>
+{% endblock %}

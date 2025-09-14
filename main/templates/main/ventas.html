@@ -1,0 +1,28 @@
+{% extends 'main/base.html' %}
+
+{% block nav %}
+
+    <li><a>Cerrar sesión</a></li>
+
+{% endblock %}
+
+{% block main %}
+<div style="max-width: 600px; margin: auto;">
+    <h1>Tabla de ventas</h1><p><a href="{% url 'boletas' %}">Administrar boletas</a></p>
+
+    <table class="table table-bordered">
+        <tr>
+            <th>Fecha</th>
+            <th>Total</th>
+        </tr>
+        
+        {% for boleta in boletas %}
+            <tr>
+                <td>{{ boleta.fecha_emision|date:"d/m/Y" }}</td>
+                <td class="td text-end">${{ boleta.total|floatformat:"-0" }}</td>
+            </tr>
+        {% endfor %}
+
+    </table>
+</div>
+{% endblock %}

@@ -1,0 +1,11 @@
+/* Links */
+a:link {
+    color: rgb(0, 80, 255);
+    text-decoration: none;
+}
+a:visited {
+    color: rgb(0, 80, 255); /* Mantiene el mismo color */
+}
+a:hover {
+    color: rgb(40, 40, 255);
+}
