@@ -1,0 +1,41 @@
+{% extends 'main/base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block title %}Productos{% endblock %}
+
+{% block main %}
+    <h1 >Productos</h1>
+
+    <form method="post" style="max-width: 500px; margin: auto;">
+        <h2>Agregar nuevo producto</h2>
+        {% csrf_token %}
+        {{ form|crispy }}
+        <button type="submit" class="btn btn-success">Agregar</button>
+    </form>
+
+    <br>
+    <div style="max-width: 1000px; margin: auto;"> <!--style temporal-->
+        <table class="table table-bordered">
+            <tr>
+                <th>Codigo</th>
+                <th>Nombre</th>
+                <th>Unidad</th> <!--Opcional, sirve para probar el Time Zone-->
+                <th>Precio</th>
+
+            </tr>
+            
+            {% for producto in user.productos_set.all %}
+                <tr>
+                    <td>{{ producto.codigo }}</td>
+                    <td>{{ producto.nombre }}</td>
+                    <td>{{ producto.unidad_medida }}</td>
+                    <td>{{ producto.precio|floatformat:"-0" }}</td>
+                </tr>
+            {% endfor %}
+
+        </table>
+    </div>
+
+{% endblock %}
+

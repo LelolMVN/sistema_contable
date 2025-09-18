@@ -1,22 +1,10 @@
 {% extends 'main/base.html' %}
 
-{% block nav %}
-    <li><a>Cerrar sesión</a></li>
-{% endblock %}
-
-{% load crispy_forms_tags %}
+{% block title %}Boletas{% endblock %}
 
 {% block main %}
-    <div style="max-width: 500px; margin: auto;">
-        <h1>Crear boleta</h1>
-
-        <form method="post">
-            {% csrf_token %}
-            {{ form|crispy }} <!-- .as_p es que lo transforma a párrafo-->
-            <button type="submit" class="btn btn-success">Nueva boleta</button>
-        </form><br>
-    </div>
-
+    <h1>Boletas</h1>
+    
     <div style="max-width: 1000px; margin: auto;"> <!--style temporal-->
         <table class="table table-bordered">
             <tr>

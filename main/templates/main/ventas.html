@@ -1,28 +1,38 @@
 {% extends 'main/base.html' %}
 
-{% block nav %}
+{% load crispy_forms_tags %}
 
-    <li><a>Cerrar sesión</a></li>
-
-{% endblock %}
+{% block title %}Ventas{% endblock %}
 
 {% block main %}
-<div style="max-width: 600px; margin: auto;">
-    <h1>Tabla de ventas</h1><p><a href="{% url 'boletas' %}">Administrar boletas</a></p>
+<h1>Ventas</h1>
 
-    <table class="table table-bordered">
-        <tr>
-            <th>Fecha</th>
-            <th>Total</th>
-        </tr>
-        
-        {% for boleta in boletas %}
+    <div style="max-width: 500px; margin: auto;">
+        <h1>Ingresar venta</h1>
+
+        <form method="post">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <button type="submit" class="btn btn-success">Nueva venta</button>
+        </form><br>
+    </div>
+    
+    <div style="max-width: 600px; margin: auto;">
+        <h1>Tabla de ventas</h1><p><a href="{% url 'boletas' %}">Ver boletas</a></p>
+
+        <table class="table table-bordered">
             <tr>
-                <td>{{ boleta.fecha_emision|date:"d/m/Y" }}</td>
-                <td class="td text-end">${{ boleta.total|floatformat:"-0" }}</td>
+                <th>Fecha</th>
+                <th>Total</th>
             </tr>
-        {% endfor %}
+            
+            {% for boleta in user.boletas_set.all %}
+                <tr>
+                    <td>{{ boleta.fecha_emision|date:"d/m/Y" }}</td>
+                    <td class="td text-end">${{ boleta.total|floatformat:"-0" }}</td>
+                </tr>
+            {% endfor %}
 
-    </table>
-</div>
+        </table>
+    </div>
 {% endblock %}

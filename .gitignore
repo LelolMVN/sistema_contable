@@ -4,3 +4,4 @@ sistema_contable/__pycache__/
 main/__pycache__/
 notas/
 db.sqlite3
+test.db

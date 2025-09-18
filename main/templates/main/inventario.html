@@ -1,0 +1,56 @@
+{% extends 'main/base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block title %}Inventario{% endblock %}
+
+{% block main %}
+    <h1>Inventario</h1>
+
+    <form method="post" style="max-width: 500px; margin: auto;">
+        <h2>Agregar producto al inventario </h2>
+        <p><a href="{% url 'productos' %}">Gestionar productos</a></p>
+        {% csrf_token %}
+        {{ form|crispy }}
+        <button type="submit" class="btn btn-success">Agregar</button>
+    </form>
+
+    <br>
+
+    <div style="max-width: 600px; margin: auto;">
+        <table  class="table table-bordered">
+            <tr>
+                <th>Bodega</th>
+                <th>Codigo</th>
+                <th>Producto</th>
+                <th>Cantidad</th>
+                <th>Precio</th>
+            </tr>
+                {% for elemento in user.inventario_set.all %}
+                <tr>
+                    <td>{{ elemento.bodega }}</td>
+                    <td>{{ elemento.producto.codigo }}</td>
+                    <td>{{ elemento.producto.nombre }}</td>
+                    <td>
+                        <ul class="list-inline">
+                            <li class="list-inline-item">
+                                <!--No sirven estos botones aun
+                                Arreglar que los botones envian el formulario del form-->
+                                <form method="#" style="max-width: 500px; margin: auto;">
+                                    <button type="submit" class="btn btn-success">-</button>
+                                </form>
+                            </li>
+                            <li class="list-inline-item">{{ elemento.cantidad }}</li>
+                            <li class="list-inline-item">
+                                <form method="#" style="max-width: 500px; margin: auto;">
+                                    <button type="submit" class="btn btn-success">+</button>
+                                </form>
+                            </li>
+                        </ul>
+                    </td>
+                    <td class="td text-end">{{ elemento.producto.precio }}</td>
+                </tr>
+                {% endfor %}
+        </table>
+    </div>
+{% endblock %}

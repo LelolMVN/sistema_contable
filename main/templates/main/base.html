@@ -2,7 +2,7 @@
 {% load tz %}
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">  
@@ -14,13 +14,15 @@
     {% endblock %}
     
 </head>
-<body>
+<body style="padding-left: 1%;">
     <!--
     <header>
         <h1><a href="{% url 'index' %}">Sistema Contable</a></h1>
     </header> -->
 
     {% timezone "America/Santiago" %}
+
+    <!-- Agregar una barra de navegación lateral izquierda -->
     
     <nav nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
@@ -32,25 +34,18 @@
             <div class="collapse navbar-collapse" id="navbarText">
                 <!--Izquierda-->
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                       <!-- <a class="nav-link" href="{% url 'index' %}"></a> -->
-                    </li>
+                    <li class="nav-item"><a class="nav-link">Compras</a></li>
+                    <li class="nav-item"><a class="nav-link"href="{% url 'ventas' %}">Ventas</a></li>
                 </ul>
                 
                 <!--Derecha-->
                 <ul class="navbar-nav ms-auto">
                     {% if user.is_authenticated %}
                         <!--Usuario registrado-->
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Finanzas
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                <li><a class="dropdown-item" href="{% url 'ventas' %}">Ventas</a></li>
-                                <li><a class="dropdown-item" href="{% url 'boletas' %}">Boletas</a></li>
-                            </ul>
-                        </li>
-                        {% csrf_token %}
+                        <li class="nav-item"><a class="nav-link" href="{% url 'inventario' %}">Inventario</a></li>
+                        <li class="nav-item"><a class="nav-link"href="{% url 'productos' %}">Productos</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'boletas' %}">Boletas</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'perfil' %}">Perfil</a></li>
                         <li>
                             <form action="{% url 'logout' %}" method="post">
                                 {% csrf_token %}
