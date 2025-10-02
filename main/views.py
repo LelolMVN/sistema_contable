@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
-from .models import Boletas, Productos, Inventario, Bodegas
-from .forms import CrearBoleta, IngresarProducto, AgregarAlInventario
+from .models import Boletas, Productos, Inventario, Bodegas, Ventas
+from .forms import CrearBoleta, IngresarProducto, AgregarAlInventario, AgregarVenta
 from django.contrib.auth.decorators import login_required
 # from django.contrib.auth.models import User
 
@@ -11,31 +11,37 @@ def index(request):
 
 @login_required
 def ventas(request):
-    boletas = Boletas.objects.all()
+    ventas = Ventas.objects.all()
+    user = request.user
 
     if request.method == "POST":
-        form = CrearBoleta(request.POST)
+        form = AgregarVenta(request.POST, user=user)
 
+        # HACER:
+        '''
+        1. Poder solo crear ventas de lo que hay en el inventario.
+        Por ahora sew puede de cualquier producto y cualquier cantidad
+        2. Validar si hay stock que se pueda vender. Sino dar un aviso.
+        3. Eliminar la cantidad vendida del inventario buscando por id del producto.
+        '''
+       
         if form.is_valid():
-            cliente = form.cleaned_data["cliente"]
-            total = form.cleaned_data["total"]
-            detalle = form.cleaned_data["detalle"]
+            nueva_venta = form.save(commit=False)
+            nueva_venta.user = user
 
-            boleta = Boletas(user=request.user, cliente=cliente, total=total, detalle=detalle)
-            boleta.save()
+            nueva_venta.save()
 
             return HttpResponseRedirect(reverse('ventas'))
         
     else:
-        form = CrearBoleta()
+        form = AgregarVenta(user=user)
 
-    return render(request, "main/ventas.html", {"form":form, "boletas":boletas})
+    return render(request, "main/ventas.html", {"form":form, "ventas":ventas})
 
 @login_required
 def boletas(request):
-    boletas = Boletas.objects.all()
 
-    return render(request, "main/boletas.html", {"boletas":boletas})
+    return render(request, "main/boletas.html")
 
 @login_required
 def perfil(request):
@@ -50,7 +56,6 @@ def perfil(request):
 @login_required
 def inventario(request):
     inventario = Inventario.objects.all()
-
     user = request.user
 
     if not user.bodegas_set.exists():
@@ -76,7 +81,6 @@ def inventario(request):
 @login_required
 def productos(request):
     productos = Productos.objects.all()
-
     user = request.user
 
     if request.method == "POST":

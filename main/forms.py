@@ -1,6 +1,6 @@
 from django import forms
 from django.forms import ModelForm
-from .models import Boletas, UnidadesMedida, Bodegas, Productos, Inventario
+from .models import Boletas, UnidadesMedida, Bodegas, Productos, Inventario, Ventas
 
 # required = true por default
 
@@ -8,6 +8,7 @@ from .models import Boletas, UnidadesMedida, Bodegas, Productos, Inventario
 # por ahora no lo cumple
 
 class CrearBoleta(ModelForm):
+    
     class Meta:
         model = Boletas
         fields = ["cliente", "total", "detalle"]
@@ -28,3 +29,17 @@ class AgregarAlInventario(ModelForm):
 
         self.fields["bodega"].queryset = Bodegas.objects.filter(user=user)
         self.fields["producto"].queryset = Productos.objects.filter(user=user)
+
+class AgregarVenta(ModelForm):
+    class Meta:
+        model = Ventas
+        fields = ["producto", "cantidad", "cliente", "detalle", "total"]
+
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop("user")
+        super().__init__(*args, **kwargs)
+
+        self.fields["producto"].queryset = Productos.objects.filter(user=user)
+
+        # No se debe poder agregar más cantidad de la que hay en stock
+        # Debe quitar la cantidad del stock

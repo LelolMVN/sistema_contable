@@ -76,3 +76,18 @@ class Inventario(models.Model):
 
     def __str__(self):
         return f"Producto {self.producto} en {self.bodega}"
+    
+class Ventas(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    numero = models.CharField(max_length=36, unique=True, default=uuid.uuid4)  # N° boleta
+    fecha_emision = models.DateTimeField(auto_now_add=True) # USE_TZ = True guarda en UTC
+    producto = models.ForeignKey(Productos, on_delete=models.PROTECT)
+    cantidad = models.PositiveIntegerField(default=0, verbose_name="Cantidad vendida")
+    cliente = models.CharField(max_length=200, null=True, blank=True) # Blank permite que el campo sea opcional
+    total = models.DecimalField(max_digits=10, decimal_places=2)
+    detalle = models.CharField(max_length=300, null=True, blank=True)
+
+    # El total debe ser el precio * cantidad vendida
+    
+    def __str__(self):
+        return f"Boleta {self.numero} - {self.total}"

@@ -16,7 +16,7 @@
                 <th>Detalle</th>
             </tr>
             
-            {% for boleta in user.boletas_set.all %}
+            {% for boleta in user.ventas_set.all %}
                 <tr>
                     <td>{{ boleta.numero }}</td>
                     <td>{{ boleta.fecha_emision|date:"d/m/Y" }}</td>
